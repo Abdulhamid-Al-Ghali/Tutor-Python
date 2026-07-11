@@ -7,11 +7,7 @@
     "Hello Abdulhamid, I\u2019m interested in the Introduction to Python Programming course for kids.",
     "",
     "Student name:",
-    "Student age:",
-    "Preferred schedule:",
-    "Any questions:",
-    "",
-    "Please send me the full details and how to reserve a seat."
+    "Student age:"
   ].join("\n");
   var waHref = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(MESSAGE);
   document.querySelectorAll(".wa-btn").forEach(function (a) {
