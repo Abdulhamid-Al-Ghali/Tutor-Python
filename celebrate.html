@@ -137,7 +137,7 @@
     <div class="student-name" id="studentName">Abdulhamid Alghali</div>
     <div class="course-line">You have successfully completed<br><span class="course-title" id="courseTitle">Introduction to Python Programming for Beginners</span></div>
     <div class="tech-club">🚀 You're one step closer to entering the Tech Club!</div>
-    <a class="cta" href="#" id="certLink">View Your Certificate</a>
+    <a class="cta" href="#" id="certLink" target="_blank" rel="noopener">View Your Certificate</a>
     <div class="footer-note">Verified completion &middot; Coding With Abdulhamid</div>
   </div>
 
@@ -146,8 +146,20 @@
   const params = new URLSearchParams(window.location.search);
   const name = params.get('name');
   const course = params.get('course');
+  const cert = params.get('cert');
   if (name) document.getElementById('studentName').textContent = name;
   if (course) document.getElementById('courseTitle').textContent = course;
+
+  const certLink = document.getElementById('certLink');
+  if (cert) {
+    certLink.setAttribute('href', cert);
+  } else {
+    // No certificate link provided yet — disable the button instead of a dead "#" link.
+    certLink.style.opacity = '0.5';
+    certLink.style.cursor = 'not-allowed';
+    certLink.setAttribute('href', 'javascript:void(0)');
+    certLink.addEventListener('click', (e) => e.preventDefault());
+  }
 
   // Lightweight confetti (no external libraries)
   const canvas = document.getElementById('confetti');
