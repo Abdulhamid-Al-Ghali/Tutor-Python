@@ -137,7 +137,7 @@
     <div class="student-name" id="studentName">Abdulhamid Alghali</div>
     <div class="course-line">You have successfully completed<br><span class="course-title" id="courseTitle">Introduction to Python Programming for Beginners</span></div>
     <div class="tech-club">🚀 You're one step closer to entering the Tech Club!</div>
-    <a class="cta" href="#" id="certLink" target="_blank" rel="noopener">View Your Certificate</a>
+    <a class="cta" href="#" id="certLink" target="_blank" rel="noopener">Share Your Achievement</a>
     <div class="footer-note">Verified completion &middot; Coding With Abdulhamid</div>
   </div>
 
@@ -147,18 +147,49 @@
   const name = params.get('name');
   const course = params.get('course');
   const cert = params.get('cert');
+  const displayName = name || document.getElementById('studentName').textContent;
+  const displayCourse = course || document.getElementById('courseTitle').textContent;
   if (name) document.getElementById('studentName').textContent = name;
   if (course) document.getElementById('courseTitle').textContent = course;
 
   const certLink = document.getElementById('certLink');
+  var shareText = 'I just completed "' + displayCourse + '" with Coding With Abdulhamid! \ud83c\udf93\ud83c\udf89 Go join now, do not miss the chance! WhatsApp +961 76 540 195';
+  var shareUrl = 'https://wa.me/?text=' + encodeURIComponent(shareText);
+  // Celebration image lives next to this page in the repo (same folder as celebrate.html).
+  var promoImagePath = 'promo.png';
+
   if (cert) {
+    // Certificate file is hosted -- link straight to it, no share logic needed.
     certLink.setAttribute('href', cert);
+    certLink.textContent = 'View Your Certificate';
   } else {
-    // No certificate link provided yet — disable the button instead of a dead "#" link.
-    certLink.style.opacity = '0.5';
-    certLink.style.cursor = 'not-allowed';
-    certLink.setAttribute('href', 'javascript:void(0)');
-    certLink.addEventListener('click', (e) => e.preventDefault());
+    certLink.setAttribute('href', shareUrl);
+    certLink.textContent = 'Share Your Achievement';
+    certLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      shareAchievement();
+    });
+  }
+
+  function shareAchievement() {
+    fetch(promoImagePath)
+      .then(function (res) { return res.blob(); })
+      .then(function (blob) {
+        var file = new File([blob], 'coding-with-abdulhamid.png', { type: blob.type || 'image/png' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          return navigator.share({
+            files: [file],
+            text: shareText,
+            title: 'Coding With Abdulhamid',
+          });
+        }
+        throw new Error('file-share-unsupported');
+      })
+      .catch(function () {
+        // Fallback for browsers without file-sharing support (e.g. desktop):
+        // open WhatsApp with the text pre-filled instead.
+        window.open(shareUrl, '_blank');
+      });
   }
 
   // Lightweight confetti (no external libraries)
