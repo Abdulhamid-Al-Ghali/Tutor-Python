@@ -151,7 +151,37 @@
     "Replies personally — usually within a few hours.": "أردّ شخصياً — عادةً خلال بضع ساعات.",
     "WhatsApp: +961 76 540 195": "واتساب: +961 76 540 195",
     "© 2026 Abdulhamid Al Ghali · Introduction to Python Programming for Kids": "© 2026 عبد الحميد الغالي · مقدمة في برمجة بايثون للأطفال",
-    "Online · Ages 10–16 · August 1 – September 1": "عبر الإنترنت · الأعمار 10–16 · 1 أغسطس – 1 سبتمبر"
+    "Online · Ages 10–16 · August 1 – September 1": "عبر الإنترنت · الأعمار 10–16 · 1 أغسطس – 1 سبتمبر",
+    "What's included": "ما الذي تشمله الدورة",
+    "Everything the $30 covers": "كل ما يشمله مبلغ 30$",
+    "12+ live online lessons": "أكثر من 12 حصة مباشرة عبر الإنترنت",
+    "Monday, Wednesday & Friday — one focused hour each.": "الاثنين والأربعاء والجمعة — ساعة مركّزة في كل حصة.",
+    "Hands-on practice every session": "تطبيق عملي في كل حصة",
+    "Mini challenges and real typing — never just watching.": "تحديات صغيرة وكتابة شيفرة حقيقية — وليس مجرّد مشاهدة.",
+    "Guided mini projects + final project": "مشاريع صغيرة موجّهة + مشروع نهائي",
+    "Games and programs your child builds and keeps.": "ألعاب وبرامج يبنيها طفلك وتبقى له.",
+    "QR-verified certificate": "شهادة موثّقة برمز QR",
+    "A personalized certificate of appreciation at the end of the course.": "شهادة تقدير شخصية في نهاية الدورة.",
+    "Progress updates for parents": "تحديثات عن التقدّم للأهل",
+    "You'll always know how your child is doing.": "ستبقى دائماً على اطلاع على مستوى طفلك.",
+    "WhatsApp support between lessons": "دعم عبر واتساب بين الحصص",
+    "Questions between sessions? Just send a message.": "لديك سؤال بين الحصص؟ أرسل رسالة فحسب.",
+    "Certificate": "الشهادة",
+    "For parents": "للأهل",
+    "A real achievement they can show": "إنجاز حقيقي يفتخرون به",
+    "At the end of the course, every student receives a personalized certificate of appreciation — a real document that celebrates their first steps in coding.": "في نهاية الدورة، يحصل كل طالب على شهادة تقدير شخصية باسمه — وثيقة حقيقية تحتفي بخطواته الأولى في عالم البرمجة.",
+    "Personalized with your child's name": "شخصية وتحمل اسم طفلك",
+    "A QR code on the certificate opens a celebration page made just for them": "رمز QR على الشهادة يفتح صفحة تهنئة خاصة به",
+    "A keepsake that boosts confidence and motivates them to keep coding": "تذكار يعزّز الثقة ويشجّع على متابعة البرمجة",
+    "Sample certificate — every student receives their own personalized version.": "نموذج عن الشهادة — يحصل كل طالب على نسخته الشخصية.",
+    "Education": "التحصيل العلمي",
+    "Computer Science at the Lebanese University — ranked top of class": "علوم الحاسوب في الجامعة اللبنانية — الأول على صفّه",
+    "Experience": "الخبرة",
+    "5+ years of one-on-one tutoring and exam preparation": "أكثر من 5 سنوات من التدريس الفردي والتحضير للامتحانات",
+    "Specialty": "التخصّص",
+    "Making coding simple for complete beginners aged 10–16": "تبسيط البرمجة للمبتدئين تماماً من عمر 10 إلى 16",
+    "Teaching languages": "لغات التدريس",
+    "English & Arabic — whichever suits your child best": "الإنجليزية والعربية — بحسب ما يناسب طفلك"
   };
 
   var META = {
@@ -173,7 +203,9 @@
       menuClose: "Close menu",
       hero: "Introduction",
       editor: "Example of simple Python code students will write",
-      strip: "Tutor highlights"
+      strip: "Tutor highlights",
+      backToTop: "Back to top",
+      waFloat: "Chat on WhatsApp"
     },
     ar: {
       logo: "البرمجة مع عبد الحميد — الصفحة الرئيسية",
@@ -182,7 +214,9 @@
       menuClose: "إغلاق القائمة",
       hero: "مقدمة الدورة",
       editor: "مثال على شيفرة بايثون بسيطة سيكتبها الطلاب",
-      strip: "نبذة عن المدرّس"
+      strip: "نبذة عن المدرّس",
+      backToTop: "العودة إلى الأعلى",
+      waFloat: "تواصل عبر واتساب"
     }
   };
 
@@ -245,6 +279,10 @@
     if (strip) strip.setAttribute("aria-label", values.strip);
     var burger = document.getElementById("hamburger");
     if (burger) burger.setAttribute("aria-label", burger.getAttribute("aria-expanded") === "true" ? values.menuClose : values.menuOpen);
+    var toTopBtn = document.getElementById("backToTop");
+    if (toTopBtn) toTopBtn.setAttribute("aria-label", values.backToTop);
+    var waFloat = document.querySelector(".wa-float");
+    if (waFloat) waFloat.setAttribute("aria-label", values.waFloat);
   }
 
   function applyLanguage(lang, save) {
@@ -351,5 +389,18 @@
     reveals.forEach(function (element) { observer.observe(element); });
   } else {
     reveals.forEach(function (element) { element.classList.add("in"); });
+  }
+
+  // Back to top button
+  var backToTopButton = document.getElementById("backToTop");
+  if (backToTopButton) {
+    var toggleBackToTop = function () {
+      backToTopButton.classList.toggle("show", window.scrollY > 600);
+    };
+    window.addEventListener("scroll", toggleBackToTop, { passive: true });
+    toggleBackToTop();
+    backToTopButton.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
   }
 })();
